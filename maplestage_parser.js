@@ -48,7 +48,8 @@ function ListDataProcess(data, callback) {
  		object.introduction = $(this).text().toString("utf8").replace(/\n+/g,'');
 	});
 	updateInfo(object,"introduction");
-	
+	/*
+
 	object.poster_url = "";
 	$('div.show_body > p > img').each(function(i, elem) {
  		object.poster_url = $(this)[0].attribs.src;
@@ -65,7 +66,7 @@ function ListDataProcess(data, callback) {
 		}	
 	});
 	updateInfo(object,"eps_num_str");
-
+*/
 	callback(null);
 
 	/*OpenDataInput(object.src, function(data) {
@@ -110,19 +111,6 @@ function OpenDataProcess(data, callback) {
 		objects.push(object);
 	});
 
-	$('ul.yearSorting').each(function(i, elem) {
-		$ = cheerio.load($(this).html());
-		$('li').each(function(i, elem) {
-			$ = cheerio.load($(this).html());
-			var year = $('h2').text();
-			$('div.compact-list a').each(function(i, elem) {
-				var object = new Array();
-				object[0] = $(this).text().split("/")[0].replace(/\s+/g, ' ');
-				object[1] = year;
-				release_date.push(object);
-			});
-		});
-	});
 	data = JSON.stringify(objects)
 	callback(data);
 }
@@ -138,11 +126,11 @@ function OpenDataOutput(response,data) {
 function updateInfo(data, type) {
 
 	var connection = mysql.createConnection({
-	    host: 'localhost',
-	    user: 'root',
-	    password: '',
+	    host: '54.221.241.105',
+	    user: 'admin',
+	    password: '_!zaq123',
 	});
-	connection.query("USE nodejs;");
+	connection.query("USE dramas;");
 	switch (type) {
 		case "introduction":
 			var sql = "UPDATE info SET introduction=" + mysql.escape(data.introduction) + " WHERE name=" + mysql.escape(data.name) + ";";
@@ -166,11 +154,11 @@ function updateInfo(data, type) {
 function createInfo(data) {
 	
 	var connection = mysql.createConnection({
-	    host: 'localhost',
-	    user: 'root',
-	    password: '',
+	    host: '54.221.241.105',
+	    user: 'admin',
+	    password: '_!zaq123',
 	});
-	connection.query("USE nodejs;");
+	connection.query("USE dramas;");
 	connection.query("SELECT * FROM info WHERE name="+ mysql.escape(data.name), function(err, rows, fields) {
 		try {
 			if (rows.length == 0) {
